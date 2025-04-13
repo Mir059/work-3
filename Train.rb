@@ -1,7 +1,7 @@
 class Train 
   attr_accessor :speed
   attr_accessor :wagons
-  attr_accessor :route
+  attr_reader :route
   attr_reader :current_station
   attr_reader :type
 
@@ -13,7 +13,7 @@ class Train
   end
 
   def stop 
-      self.speed = 0 
+    self.speed = 0 
   end
 
   def add_wagons
@@ -21,27 +21,33 @@ class Train
   end
 
   def del_wagons
-  self.wagons -= 1 if self.speed == 0 
+    self.wagons -= 1 if self.speed == 0 
   end
 
   def add_route(route)
-  self.route = route 
-  @current_station = route.stations[0]
+    @route = route 
+    @current_station_index = 0 
+  end
+  
+  def go_next_station 
+    @current_station_index += 1 if next_station
+  end
+  
+  def go_previous_station 
+    @current_station_index -= 1 if previous_station
   end
 
-  def next_station (to_change)
-  @current_station = self.route.stations[self.route.stations.index(@current_station).to_i+1] if to_change == "+1"
-  @current_station = self.route.stations[self.route.stations.index(@current_station).to_i-1] if to_change == "-1"
+  def current_station 
+    @route.stations[@current_station_index]
   end
 
-  def list_station
-    puts "previous station #{self.route.stations[self.route.stations.index(@current_station).to_i-1]}"
-    puts "current_station #{@current_station}"
-    puts "next_station #{self.route.stations[self.route.stations.index(@current_station).to_i+1]}"
+  def next_station 
+    @route.stations[@current_station_index + 1]
   end
+
+  def previous_station 
+    @route.stations[@current_station_index - 1]
+  end
+  
 end
-
-train_one = Train.new(777,"pass",100)
-train_one.add_route(route_one)
-puts train_one.current_station
 
