@@ -12,7 +12,7 @@ class Station
   end
     
   def type(type)
-    @trains.select{ |t|  t.type == type }
+    @trains.select{ |t| t.type == type }
   end
 
   def delete(train)
